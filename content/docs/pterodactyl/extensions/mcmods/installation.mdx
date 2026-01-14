@@ -1,0 +1,155 @@
+---
+title: Installation Guide
+description: Step-by-step installation for the MC Mods Manager
+---
+
+## Installation
+
+### Upload Extension Files
+
+Upload the contents inside `uploadme` folder included with the extension into your Pterodactyl directory. (commonly `/var/www/pterodactyl`)
+
+---
+
+### Register Frontend Routes
+
+Open the file: `resources/scripts/routers/routes.ts`
+
+Find:
+
+```ts
+import ServerActivityLogContainer from "@/components/server/ServerActivityLogContainer";
+```
+
+Add the following **directly below it**:
+
+```ts
+import MCModsRoutes from "@/routers/mcmods";
+```
+
+Find:
+
+```js
+{
+    path: '/files/:action(edit|new)',
+    permission: 'file.*',
+    name: undefined,
+    component: FileEditContainer,
+},
+```
+
+Add the following **directly below it**:
+
+```js
+...MCModsRoutes,
+```
+
+![help-1](/docs/pterodactyl/extensions/mcmods/help-1.png)
+
+---
+
+### Register API Routes
+
+Open the file: `routes/api-client.php`
+
+Add the following line **at the end of the file**:
+
+```php
+Route::prefix('/extensions/mcmods')->group(
+    base_path('routes/mcmods/api-client.php')
+);
+```
+
+![help-2](/docs/pterodactyl/extensions/mcmods/help-2.png)
+
+---
+
+### Register Admin Routes
+
+Open the file: `routes/admin.php`
+
+Add the following code **at the end of the file**:
+
+```php
+include 'mcmods/admin.php';
+```
+
+![help-3](/docs/pterodactyl/extensions/mcmods/help-3.png)
+
+---
+
+### Add Admin Navigation
+
+Open the file: `resources/views/layouts/admin.blade.php`
+
+Find this block:
+
+```php
+<li class="{{ ! starts_with(Route::currentRouteName(), 'admin.nests') ?: 'active' }}">
+    <a href="{{ route('admin.nests') }}">
+        <i class="fa fa-th-large"></i> <span>Nests</span>
+    </a>
+</li>
+```
+
+Add the following **directly below it**:
+
+```php
+<li class="{{ ! starts_with(Route::currentRouteName(), 'admin.mcmods.index') ?: 'active' }}">
+    <a href="{{ route('admin.mcmods.index') }}">
+        <i class="fa fa-cubes"></i> <span>MC Mods</span>
+    </a>
+</li>
+```
+
+![help-4](/docs/pterodactyl/extensions/mcmods/help-4.png)
+
+---
+
+### Clear Cache
+
+Run the following command:
+
+```bash
+php artisan optimize:clear
+```
+
+---
+
+### Build Panel Assets
+
+Rebuild the Pterodactyl panel assets by following the official guide:
+
+https://pterodactyl.io/community/customization/panel.html#building-assets
+
+---
+
+## Configuration
+
+### CurseForge API Key
+
+MC Mods Manager uses the **CurseForge API** to provide access to a large library of Minecraft mods.
+
+To get CurseForge API Key follow the steps:
+
+1. Visit https://console.curseforge.com
+2. Create an account
+3. Generate an API key
+4. Enter the API key in the extension’s settings
+
+---
+
+## Finished!
+
+Your **MC Mods Manager** extension is now installed and ready to use.
+
+---
+
+## Need Help?
+
+If you need any assistance, feel free to reach out:
+
+- **Email:** sarthak@stellarstudios.xyz  
+- **Discord Server:** https://discord.gg/sQjuWcDxBY  
+- **Discord Username:** `@sarthak77`  
+- **Discord User ID:** `877064899065446461`

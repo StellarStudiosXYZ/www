@@ -1,0 +1,11 @@
+{
+    "title": "Pterodactyl",
+    "root": true,
+    "pagess": [
+        "---Introduction---",
+        "index",
+        "---Products---",
+        "extensions",
+        "themes"
+    ]
+}
