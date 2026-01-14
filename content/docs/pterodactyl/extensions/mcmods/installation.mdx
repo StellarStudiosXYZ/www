@@ -1,35 +1,54 @@
 ---
 title: Installation Guide
-description: Step-by-step installation for the MC Mods Manager
+description: Step-by-step installation for the MC Mods Manager v2.x
 ---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { File, Folder, Files } from 'fumadocs-ui/components/files';
+
+## Prerequisites
+
+<Callout type="warn" title="Before You Start">
+Make sure your Pterodactyl Panel is up-to-date or atleast above `v1.10.x`.
+</Callout>
 
 ## Installation
 
+<Steps>
+
+<Step>
 ### Upload Extension Files
 
-Upload the contents inside `uploadme` folder included with the extension into your Pterodactyl directory. (commonly `/var/www/pterodactyl`)
+Upload the contents inside the `uploadme` folder included with the extension into your Pterodactyl directory.
 
----
+<Callout type="info">
+The default Pterodactyl directory is typically located at `/var/www/pterodactyl`
+</Callout>
 
+</Step>
+
+<Step>
 ### Register Frontend Routes
 
 Open the file: `resources/scripts/routers/routes.ts`
 
-Find:
+**Step 1:** Find the following import statement:
 
-```ts
+```ts title="resources/scripts/routers/routes.ts"
 import ServerActivityLogContainer from "@/components/server/ServerActivityLogContainer";
 ```
 
-Add the following **directly below it**:
+**Step 2:** Add the MC Mods import **directly below it**:
 
-```ts
+```ts title="resources/scripts/routers/routes.ts" {2}
+import ServerActivityLogContainer from "@/components/server/ServerActivityLogContainer";
 import MCModsRoutes from "@/routers/mcmods";
 ```
 
-Find:
+**Step 3:** Find the file edit route:
 
-```js
+```js title="resources/scripts/routers/routes.ts"
 {
     path: '/files/:action(edit|new)',
     permission: 'file.*',
@@ -38,53 +57,62 @@ Find:
 },
 ```
 
-Add the following **directly below it**:
+**Step 4:** Add the MC Mods routes **directly below it**:
 
-```js
+```js title="resources/scripts/routers/routes.ts" {6}
+{
+    path: '/files/:action(edit|new)',
+    permission: 'file.*',
+    name: undefined,
+    component: FileEditContainer,
+},
 ...MCModsRoutes,
 ```
 
-![help-1](/docs/pterodactyl/extensions/mcmods/help-1.png)
+![Frontend Routes Configuration](/docs/pterodactyl/extensions/mcmods/help-1.png)
 
----
+</Step>
 
+<Step>
 ### Register API Routes
 
 Open the file: `routes/api-client.php`
 
-Add the following line **at the end of the file**:
+Add the following code **at the end of the file**:
 
-```php
+```php title="routes/api-client.php"
 Route::prefix('/extensions/mcmods')->group(
     base_path('routes/mcmods/api-client.php')
 );
 ```
 
-![help-2](/docs/pterodactyl/extensions/mcmods/help-2.png)
+![API Routes Configuration](/docs/pterodactyl/extensions/mcmods/help-2.png)
 
----
+</Step>
 
+<Step>
 ### Register Admin Routes
 
 Open the file: `routes/admin.php`
 
 Add the following code **at the end of the file**:
 
-```php
+```php title="routes/admin.php"
 include 'mcmods/admin.php';
 ```
 
-![help-3](/docs/pterodactyl/extensions/mcmods/help-3.png)
+![Admin Routes Configuration](/docs/pterodactyl/extensions/mcmods/help-3.png)
 
----
+</Step>
 
+<Step>
 ### Add Admin Navigation
 
 Open the file: `resources/views/layouts/admin.blade.php`
 
-Find this block:
+**Step 1:** Find the Nests navigation block:
 
-```php
+```php title="resources/views/layouts/admin.blade.php"
 <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.nests') ?: 'active' }}">
     <a href="{{ route('admin.nests') }}">
         <i class="fa fa-th-large"></i> <span>Nests</span>
@@ -92,9 +120,14 @@ Find this block:
 </li>
 ```
 
-Add the following **directly below it**:
+**Step 2:** Add the MC Mods navigation **directly below it**:
 
-```php
+```php title="resources/views/layouts/admin.blade.php" {6-10}
+<li class="{{ ! starts_with(Route::currentRouteName(), 'admin.nests') ?: 'active' }}">
+    <a href="{{ route('admin.nests') }}">
+        <i class="fa fa-th-large"></i> <span>Nests</span>
+    </a>
+</li>
 <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.mcmods.index') ?: 'active' }}">
     <a href="{{ route('admin.mcmods.index') }}">
         <i class="fa fa-cubes"></i> <span>MC Mods</span>
@@ -102,40 +135,60 @@ Add the following **directly below it**:
 </li>
 ```
 
-![help-4](/docs/pterodactyl/extensions/mcmods/help-4.png)
+![Admin Navigation Configuration](/docs/pterodactyl/extensions/mcmods/help-4.png)
 
----
+</Step>
 
+<Step>
 ### Clear Cache
 
-Run the following command:
+Run the following command to clear the application cache:
 
 ```bash
 php artisan optimize:clear
 ```
 
----
+</Step>
 
+<Step>
 ### Build Panel Assets
 
-Rebuild the Pterodactyl panel assets by following the official guide:
+Rebuild the Pterodactyl panel assets to compile your changes.
 
-https://pterodactyl.io/community/customization/panel.html#building-assets
+Follow the [official Pterodactyl customization guide](https://pterodactyl.io/community/customization/panel.html#building-assets) for detailed instructions.
 
----
+```bash
+yarn
+yarn build:production
+```
+
+
+</Step>
+
+</Steps>
 
 ## Configuration
 
+<Steps>
+
+<Step>
 ### CurseForge API Key
 
-MC Mods Manager uses the **CurseForge API** to provide access to a large library of Minecraft mods.
+MC Mods Manager uses the **CurseForge API** to provide access to a large library of Minecraft: Java Edition Mods.
 
-To get CurseForge API Key follow the steps:
+1. Visit [CurseForge Console](https://console.curseforge.com)
+2. Create an account or sign in
+3. Navigate to the API Keys section
+4. Generate a new API key
+</Step>
 
-1. Visit https://console.curseforge.com
-2. Create an account
-3. Generate an API key
-4. Enter the API key in the extension’s settings
+<Step>
+### Configure the Extension
+
+Enter your CuseForge API key in the MC Mods Manager settings within the Pterodactyl admin panel.
+</Step>
+
+</Steps>
 
 ---
 
@@ -147,9 +200,9 @@ Your **MC Mods Manager** extension is now installed and ready to use.
 
 ## Need Help?
 
-If you need any assistance, feel free to reach out:
+If you need any assistance, feel free to reach out through any of these channels:
 
-- **Email:** sarthak@stellarstudios.xyz  
-- **Discord Server:** https://discord.gg/sQjuWcDxBY  
-- **Discord Username:** `@sarthak77`  
-- **Discord User ID:** `877064899065446461`
+- **Discord Server:** https://discord.gg/sQjuWcDxBY
+- **Username:** `@sarthak77`
+- **User ID:** `877064899065446461`
+- **Email:** sarthak@stellarstudios.xyz
