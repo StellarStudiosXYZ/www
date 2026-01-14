@@ -7,6 +7,7 @@ export default function Layout({ children }: LayoutProps<"/docs">) {
         <DocsLayout
             tree={source.getPageTree()}
             githubUrl="https://github.com/StellarStudiosXYZ"
+            searchToggle={{ enabled: false }}
             sidebar={{
                 tabs: [
                     {
