@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getPageImage, source } from "@/lib/source";
 import { notFound } from "next/navigation";
 import { ImageResponse } from "next/og";
