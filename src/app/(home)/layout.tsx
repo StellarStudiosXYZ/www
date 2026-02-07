@@ -1,16 +1,12 @@
-import { HomeLayout } from 'fumadocs-ui/layouts/home';
 import { baseOptions } from '@/lib/layout.shared';
+import { HomeLayout } from 'fumadocs-ui/layouts/home';
+import type { ReactNode } from 'react';
 
-export default function Layout({ children }: LayoutProps<'/'>) {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
     <HomeLayout
-      {...baseOptions()}
+      {...baseOptions}
       links={[
-        {
-          type: 'main',
-          text: 'Blog',
-          url: '/blog',
-        },
         {
           type: 'main',
           text: 'Documentation',
@@ -18,9 +14,16 @@ export default function Layout({ children }: LayoutProps<'/'>) {
         },
         {
           type: 'main',
+          text: 'Blog',
+          url: '/blog',
+        },
+        {
+          type: 'main',
           text: 'Guide',
           url: '/guide',
         },
+
+        ...(baseOptions.links || []),
       ]}
     >
       {children}
