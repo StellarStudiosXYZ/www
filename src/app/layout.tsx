@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   description:
     'We make websites, themes and extensions for Blueprint, Pterodactyl and Paymenter!',
   applicationName: 'StellarStudios',
+  icons: {
+    icon: '/favicon.ico',
+  },
   generator: 'Next.js',
   appleWebApp: {
     title: 'StellarStudios',
