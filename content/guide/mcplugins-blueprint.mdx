@@ -1,0 +1,75 @@
+---
+title: MC Plugins Manager for Blueprint
+author: Sarthak
+date: 2026-02-07
+cover: /mcplugins/banner-blueprint.png
+---
+
+# Welcome
+
+Thank you for purchasing **MC Plugins Manager for Blueprint**!
+If you encounter any issues or have questions, feel free to reach out on our **Support Server**.
+
+# Installation
+
+Before using MC Plugins Manager, ensure that you have **Blueprint** installed. Blueprint allows extensions like MC Plugins to have great compatibility with other modifications made by themes & extensions. You can find more information, download links and documentation at **https://blueprint.zip**.
+
+### Step 1: Install the Extension
+
+1. Upload the `mcplugins.blueprint` file (included with this archive) into your Pterodactyl directory (usually located at `/var/www/pterodactyl`).
+2. Install the extnsion by running command: `blueprint -install mcplugins.blueprint`
+
+### Step 2: Configure CurseForge
+
+MC Plugins Manager uses CurseForge API to provide access to a large library of Minecraft plugins. To obtain your key follow the steps below:
+
+1. Create a account at CurseForge Console (https://console.curseforge.com)
+2. Generate an API key
+3. Paste it in the extension's settings.
+
+# Wings Modification
+
+You only need to perform Wings modifications if you want to use the **Manage Plugins** feature (show installed plugins, update plugins, and remove plugins).
+These steps must be performed on every node running Wings and make sure you don't run the commands below inside your Pterodactyl directory (usually located at `/var/www/pterodactyl`)
+
+### Step 1: Install Go
+
+Go is required to build Wings. You can install it by running the command: `apt-get install -y golang`
+If you are not using Debian-based system, install Go using your system's package manager.
+
+### Step 2: Clone Wings Repository
+
+Clone Wings repository by running command: `git clone https://github.com/pterodactyl/wings.git && cd wings`
+
+### Step 3: Apply the Wings Patch
+
+Upload the `wings.patch` file (included with this archive) into the Wings directory you just cloned and run command: `git apply wings.patch`
+
+### Step 4: Build Wings
+
+This will generate the Wings binary under the `build/` directory. Run the command: `make build`
+
+### Step 5: Replace the Wings Binary
+
+Stop Wings by running the command: `systemctl stop wings`
+
+Copy the newly built binary by running the command: `cp "build/wings_linux_$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')" /usr/local/bin/wings`
+
+Start Wings again by running the command: `systemctl start wings`
+
+# Need help?
+
+If you have any questions or need assistance with the installation, feel free to contact us through the following:
+
+- Support Server: https://discord.gg/sQjuWcDxBY
+- Email: sarthak@stellarstudios.xyz
+
+# Terms of Service
+
+1. No refunds will be made.
+2. You cannot resell or redistribute this extension.
+3. Chargebacks are strictly forbidden.
+4. Uploading this extension to any third-party site is not allowed.
+5. Support is provided on our Discord.
+6. Updates are not guaranteed.
+7. You may not install this extension on more than one server without consent.

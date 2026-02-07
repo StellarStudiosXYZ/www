@@ -11,6 +11,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "clsx": "^2.1.1",
     "fumadocs-core": "16.5.1",
     "fumadocs-mdx": "14.2.6",
     "fumadocs-ui": "16.5.1",
@@ -18,7 +20,10 @@
     "next": "16.1.6",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "tailwind-merge": "^3.4.0"
+    "schema-dts": "^1.1.5",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.4.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
@@ -26,10 +31,11 @@
     "@types/node": "^25.1.0",
     "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.18",
-    "typescript": "^5.9.3",
+    "eslint": "^9.39.2",
     "eslint-config-next": "16.1.6",
-    "eslint": "^9.39.2"
+    "postcss": "^8.5.6",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3"
   }
 }

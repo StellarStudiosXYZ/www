@@ -1,0 +1,260 @@
+---
+title: MC Mods Manager for Pterodactyl
+author: Sarthak
+date: 2026-02-07
+cover: /mcmods/banner-pterodactyl.png
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+# Welcome
+
+Thank you for purchasing **MC Mods Manager for Pterodactyl**!
+If you encounter any issues or have questions, feel free to reach out on our **Support Server**.
+
+# Installation
+
+Upload the contents of the `pterodactyl` directory (included with this archive) to your Pterodactyl directory (usually located at `/var/www/pterodactyl`).
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+
+### Frontend Routes
+
+Open the file: `resources/scripts/routers/routes.ts`
+
+Find the code:
+
+```ts
+import ServerActivityLogContainer from '@/components/server/ServerActivityLogContainer';
+```
+
+Add this code below it:
+
+```ts
+import MCModsRoutes from '@/routers/extensions/mcmods';
+```
+
+Find this code:
+
+```ts
+{
+    path: '/files',
+    permission: 'file.*',
+    name: 'Files',
+    component: FileManagerContainer,
+},
+```
+
+Add this code below it:
+
+```ts
+...MCModsRoutes,
+```
+
+![MC Mods Help-1](/mcmods/help-1.png)
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Admin Sidebar
+
+Open the file: `resources/views/layouts/admin.blade.php`
+
+Find this code:
+
+```html
+<li class="{{ ! starts_with(Route::currentRouteName(), 'admin.nests') ?: 'active' }}">
+    <a href="{{ route('admin.nests') }}">
+        <i class="fa fa-th-large"></i> <span>Nests</span>
+    </a>
+</li>
+```
+
+Add this code below it:
+
+```php
+@include('layouts.extensions.mcmods')
+```
+
+![MC Mods Help-2](/mcmods/help-2.png)
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Client API Routes
+
+Open the file: `routes/api-client.php`
+
+Add this code at the end of the file:
+
+```php
+Route::prefix('/extensions/mcmods')->group(base_path('routes/mcmods/api-client.php'));
+```
+
+![MC Mods Help-3](/mcmods/help-3.png)
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Admin Routes
+
+Open the file: `routes/admin.php`
+
+Add this code at the end of the file:
+
+```php
+include 'mcmods/admin.php';
+```
+
+![MC Mods Help-4](/mcmods/help-4.png)
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Clear Cache
+
+Run the command in your Pterodactyl directory (usually located at
+`/var/www/pterodactyl`)
+
+```bash
+php artisan optimize:clear
+```
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Build Frontend
+
+Refer to the [Pterodactyl documentation to build frontend](https://pterodactyl.io/community/customization/panel.html#building-assets)
+
+  </div>
+</Step>
+
+</Steps>
+
+# Configure CurseForge
+
+MC Mods Manager uses CurseForge API to provide access to a large library of Minecraft mods. To obtain your key follow the steps below:
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+    Create a account at [CurseForge Console](https://console.curseforge.com)
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+    Generate an API key and paste it in the extension's settings.
+  </div>
+</Step>
+
+</Steps>
+
+# Wings Modification
+
+You only need to perform Wings modifications if you want to use the **Manage Mods** feature (show installed mods, update mods, and remove mods).
+These steps must be performed on every node running Wings and make sure you don't run the commands below inside your Pterodactyl directory (usually located at `/var/www/pterodactyl`)
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+
+### Install Go
+
+Go is required to build Wings. This guide assumes you are on a Debian-based system. If you are not using Debian-based system, install Go using your system's package manager.
+
+```bash
+apt-get install -y golang
+```
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Clone Wings Repository
+
+This will clone the Pterodactyl Wings repository.
+
+```bash
+git clone https://github.com/pterodactyl/wings.git && cd wings
+```
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Apply the Wings Patch
+
+Upload the `wings.patch` file included with the archive into the Wings directory that you just cloned then apply the patch by running the command below:
+
+```bash
+git apply wings.patch
+```
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Build Wings Binary
+
+This will generate the Wings binary under the `build/` directory.
+
+```bash
+make build
+```
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Replace the Wings Binary
+
+This will stop Wings, replace the binary, and start Wings again.
+
+```bash
+systemctl stop wings
+cp "build/wings_linux_$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')" /usr/local/bin/wings
+systemctl start wings
+```
+
+  </div>
+</Step>
+
+</Steps>
+
+# Need help?
+
+If you have any questions or need assistance with the installation, feel free to contact us through the following:
+
+- Support Server: https://discord.gg/sQjuWcDxBY
+- Email: sarthak@stellarstudios.xyz
