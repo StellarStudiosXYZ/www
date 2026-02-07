@@ -44,6 +44,27 @@ export const guide = defineCollections({
   }),
 });
 
+export const product = defineCollections({
+  type: 'doc',
+  dir: 'content/products',
+  schema: frontmatterSchema.extend({
+    date: z.string().date().or(z.date()).optional(),
+    tags: z.array(z.string()).optional(),
+    cover: z.string().optional(),
+    guide: z.string().optional(),
+    providers: z
+      .array(
+        z.object({
+          name: z.string(),
+          price: z.number(),
+          currency: z.string(),
+          link: z.string().url(),
+        }),
+      )
+      .optional(),
+  }),
+});
+
 export default defineConfig({
   mdxOptions: {
     // MDX options

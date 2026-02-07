@@ -25,6 +25,13 @@ export default function HomePage() {
         </Link>{' '}
         and see the guide.
       </p>
+      <p>
+        You can open{' '}
+        <Link href="/products" className="font-medium underline">
+          /products
+        </Link>{' '}
+        and see our products.
+      </p>
     </div>
   );
 }

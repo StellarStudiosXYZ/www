@@ -22,7 +22,11 @@ export default function Layout({ children }: { children: ReactNode }) {
           text: 'Guide',
           url: '/guide',
         },
-
+        {
+          type: 'main',
+          text: 'Products',
+          url: '/products',
+        },
         ...(baseOptions.links || []),
       ]}
     >
