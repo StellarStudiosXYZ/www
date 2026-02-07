@@ -11,7 +11,7 @@ function getReadingTime(structuredData: {
 }): number {
   const text = structuredData.contents.map((c) => c.content).join(' ');
   const words = text.split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.round(words / 200));
+  return Math.max(1, Math.round(words / 120));
 }
 
 export const metadata: Metadata = {

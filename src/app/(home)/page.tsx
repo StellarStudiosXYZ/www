@@ -11,6 +11,20 @@ export default function HomePage() {
         </Link>{' '}
         and see the documentation.
       </p>
+      <p>
+        You can open{' '}
+        <Link href="/blog" className="font-medium underline">
+          /blog
+        </Link>{' '}
+        and see the blog.
+      </p>
+      <p>
+        You can open{' '}
+        <Link href="/guide" className="font-medium underline">
+          /guide
+        </Link>{' '}
+        and see the guide.
+      </p>
     </div>
   );
 }
