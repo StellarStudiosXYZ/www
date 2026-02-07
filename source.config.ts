@@ -26,6 +26,7 @@ export const blog = defineCollections({
   schema: frontmatterSchema.extend({
     author: z.string(),
     date: z.string().date().or(z.date()).optional(),
+    lastModified: z.string().date().or(z.date()).optional(),
     tags: z.array(z.string()).optional(),
     cover: z.string().optional(),
   }),
@@ -37,6 +38,7 @@ export const guide = defineCollections({
   schema: frontmatterSchema.extend({
     author: z.string(),
     date: z.string().date().or(z.date()).optional(),
+    lastModified: z.string().date().or(z.date()).optional(),
     tags: z.array(z.string()).optional(),
     cover: z.string().optional(),
   }),
