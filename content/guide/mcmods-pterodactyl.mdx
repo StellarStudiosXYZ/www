@@ -15,7 +15,7 @@ If you encounter any issues or have questions, feel free to reach out on our **S
 
 ## Installation
 
-Upload the contents of the `pterodactyl` directory (included with this archive) to your Pterodactyl directory (usually located at `/var/www/pterodactyl`).
+Using an SFTP client of your choice, upload all of the files from the `UploadFiles` directory into your Pterodactyl directory (usually located at `/var/www/pterodactyl`)
 
 <Steps>
 
@@ -26,7 +26,7 @@ Upload the contents of the `pterodactyl` directory (included with this archive) 
 
 Open the file: `resources/scripts/routers/routes.ts`
 
-Find the code:
+Find this code:
 
 ```ts
 import ServerActivityLogContainer from '@/components/server/ServerActivityLogContainer';
@@ -75,7 +75,6 @@ Find this code:
         <i class="fa fa-th-large"></i> <span>Nests</span>
     </a>
 </li>
-```
 
 Add this code below it:
 
@@ -127,14 +126,17 @@ include 'mcmods/admin.php';
 <Step>
   <div className="space-y-6">
 
-### Clear Cache
+### Install Node.js
 
-Run the command in your Pterodactyl directory (usually located at
-`/var/www/pterodactyl`)
+If you're using Debian-based or Ubuntu-based distributions, run the following commands:
 
 ```bash
-php artisan optimize:clear
+curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+apt-get install -y nodejs
+corepack enable
 ```
+
+On other distributions, install Node.js using the distribution's package manager.
 
   </div>
 </Step>
@@ -142,9 +144,15 @@ php artisan optimize:clear
 <Step>
   <div className="space-y-6">
 
-### Build Frontend
+### Build panel assets
 
-Refer to the [Pterodactyl documentation to build frontend](https://pterodactyl.io/community/customization/panel.html#building-assets)
+Now, it's time to clean caches, download Node dependencies, and build the panel assets:
+
+```bash
+php artisan optimize:clear
+yarn install
+NODE_OPTIONS=--openssl-legacy-provider yarn build:production
+```
 
   </div>
 </Step>
@@ -173,48 +181,49 @@ MC Mods Manager uses CurseForge API to provide access to a large library of Mine
 
 ## Wings Modification
 
-You only need to perform Wings modifications if you want to use the **Manage Mods** feature (show installed mods, update mods, and remove mods).
-These steps must be performed on every node running Wings and make sure you don't run the commands below inside your Pterodactyl directory (usually located at `/var/www/pterodactyl`)
+Wings modification is **optional** and only required if you want to use the **Manage Mods** feature (view installed mods, update mods, and remove mods).
+
+These steps apply only to nodes running [Pterodactyl Wings](https://github.com/pterodactyl/wings) and must be completed on each node.
+If you are using [Calagopus Wings](https://github.com/calagopus/wings), you can skip this section entirely — everything will work without any additional modifications.
+
+Make sure you don't run the commands below inside your Pterodactyl directory (usually located at `/var/www/pterodactyl`)
 
 <Steps>
 
 <Step>
   <div className="space-y-6">
 
-### Install Go
+### Install GoLang
 
-Go is required to build Wings. This guide assumes you are on a Debian-based system. If you are not using Debian-based system, install Go using your system's package manager.
+Pterodactyl Wings is written in Go, and Go is required in order to build a Wings binary. If you are using a Debian-based or Ubuntu-based distribution, install Go by running:
 
 ```bash
 apt-get install -y golang
 ```
 
+On other distributions, install Go using the distribution's package manager.
+
   </div>
 </Step>
 
 <Step>
   <div className="space-y-6">
 
-### Clone Wings Repository
+### Apply patch
 
-This will clone the Pterodactyl Wings repository.
+Start by cloning the Pterodactyl Wings repository:
 
 ```bash
-git clone https://github.com/pterodactyl/wings.git && cd wings
+git clone https://github.com/pterodactyl/wings.git
+cd wings
 ```
 
-  </div>
-</Step>
+Next, using an SFTP client of your choice, upload the `WingsModification.patch` file into the cloned `wings` directory.
 
-<Step>
-  <div className="space-y-6">
-
-### Apply the Wings Patch
-
-Upload the `wings.patch` file included with the archive into the Wings directory that you just cloned then apply the patch by running the command below:
+Once uploaded, apply the patch by running:
 
 ```bash
-git apply wings.patch
+patch -Np1 -i WingsModification.patch
 ```
 
   </div>
@@ -225,7 +234,7 @@ git apply wings.patch
 
 ### Build Wings Binary
 
-This will generate the Wings binary under the `build/` directory.
+After the patch has been applied, build the Wings binary by running:
 
 ```bash
 make build
@@ -237,9 +246,10 @@ make build
 <Step>
   <div className="space-y-6">
 
-### Replace the Wings Binary
+### Replace Wings Binary
 
-This will stop Wings, replace the binary, and start Wings again.
+Once the build is complete, stop the currently running Wings service, replace the binary with the
+newly built one, and start Wings again:
 
 ```bash
 systemctl stop wings
@@ -254,7 +264,7 @@ systemctl start wings
 
 ## Need help?
 
-If you have any questions or need assistance with the installation, feel free to contact us through the following:
+If you have any questions or need assistance with the installation, feel free to contact us through:
 
 - Support Server: https://discord.gg/sQjuWcDxBY
 - Email: sarthak@stellarstudios.xyz
