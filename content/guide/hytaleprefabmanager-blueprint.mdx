@@ -1,0 +1,54 @@
+---
+title: Hytale Prefab Manager for Blueprint
+author: Sarthak
+date: 2026-02-07
+cover: /hytaleprefabmanager/banner-blueprint.png
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+## Information
+
+Before installing Hytale Prefab Manager, make sure that you have **Blueprint** installed. Blueprint allows extensions like Hytale Prefab Manager to have great compatibility with other modifications made by themes & extensions. You can find more information, download links and documentation at **https://blueprint.zip**.
+
+## Installation
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+      Using an SFTP client of your choice, upload the `hytaleprefabmanager.blueprint` file into your Pterodactyl directory (usually located at `/var/www/pterodactyl`).
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+      Now, Install the extension by running the following command:
+      
+```bash
+blueprint -install hytaleprefabmanager.blueprint
+```
+  </div>
+</Step>
+
+</Steps>
+
+## Configure CurseForge
+
+Hytale Prefab Manager uses CurseForge API to provide access to a large library of Hytale prefabs. To obtain your key follow the steps below:
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+    Create a account at [CurseForge Console](https://console.curseforge.com)
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+    Generate an API key and paste it in the extension's settings.
+  </div>
+</Step>
+
+</Steps>

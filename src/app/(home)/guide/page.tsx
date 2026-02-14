@@ -1,4 +1,4 @@
-import { Clock } from 'lucide-react';
+import { Clock, CalendarDays, UserPen } from 'lucide-react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,7 +11,7 @@ function getReadingTime(structuredData: {
 }): number {
   const text = structuredData.contents.map((c) => c.content).join(' ');
   const words = text.split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.round(words / 120));
+  return Math.max(1, Math.round(words / 100));
 }
 
 export const metadata: Metadata = {
@@ -106,9 +106,18 @@ export default function GuideIndex() {
                 )}
               </div>
               <div className="flex items-center gap-4 text-sm text-muted-foreground pt-4 border-t">
-                {post.data.author && <span>{post.data.author}</span>}
+                {post.data.author && (
+                  <span className="inline-flex items-center gap-1">
+                    <UserPen className="h-3.5 w-3.5" />
+                    {post.data.author}
+                  </span>
+                )}
                 {post.data.date && (
-                  <time dateTime={new Date(post.data.date).toISOString()}>
+                  <time
+                    dateTime={new Date(post.data.date).toISOString()}
+                    className="inline-flex items-center gap-1"
+                  >
+                    <CalendarDays className="h-3.5 w-3.5" />
                     {new Date(post.data.date).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'short',

@@ -1,5 +1,5 @@
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
-import { ChevronRight, Clock } from 'lucide-react';
+import { ChevronRight, Clock, CalendarDays, UserPen } from 'lucide-react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,7 +15,7 @@ function getReadingTime(structuredData: {
 }): number {
   const text = structuredData.contents.map((c) => c.content).join(' ');
   const words = text.split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.round(words / 200));
+  return Math.max(1, Math.round(words / 100));
 }
 
 function getRelatedPosts(
@@ -144,9 +144,19 @@ export default async function GuidePost(props: {
 
         <div className="flex items-center justify-between mb-6">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
-            {page.data.author && <span>By {page.data.author}</span>}
+            {page.data.author && (
+              <span className="inline-flex items-center gap-1">
+                <UserPen className="h-3.5 w-3.5" />
+                {page.data.author}
+              </span>
+            )}
+
             {publishDate && (
-              <time dateTime={publishDate.toISOString()}>
+              <time
+                dateTime={publishDate.toISOString()}
+                className="inline-flex items-center gap-1"
+              >
+                <CalendarDays className="h-3.5 w-3.5" />
                 {publishDate.toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
@@ -154,10 +164,15 @@ export default async function GuidePost(props: {
                 })}
               </time>
             )}
-            {showLastModified && (
-              <span>
-                Updated{' '}
-                <time dateTime={lastModified.toISOString()}>
+
+            {showLastModified && lastModified && (
+              <span className="inline-flex items-center gap-1">
+                <span>Updated</span>
+                <time
+                  dateTime={lastModified.toISOString()}
+                  className="inline-flex items-center gap-1"
+                >
+                  <CalendarDays className="h-3.5 w-3.5" />
                   {lastModified.toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
@@ -166,11 +181,13 @@ export default async function GuidePost(props: {
                 </time>
               </span>
             )}
+
             <span className="inline-flex items-center gap-1">
               <Clock className="h-3.5 w-3.5" />
               {readingTime} min read
             </span>
           </div>
+
           <ShareButton
             title={page.data.title}
             description={page.data.description}

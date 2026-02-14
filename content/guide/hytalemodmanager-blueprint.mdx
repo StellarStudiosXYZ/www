@@ -1,0 +1,164 @@
+---
+title: Hytale Mod Manager for Blueprint
+author: Sarthak
+date: 2026-02-07
+cover: /hytalemodmanager/banner-blueprint.png
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+## Information
+
+Before installing Hytale Mod Manager, make sure that you have **Blueprint** installed. Blueprint allows extensions like Hytale Mod Manager to have great compatibility with other modifications made by themes & extensions. You can find more information, download links and documentation at **https://blueprint.zip**.
+
+## Installation
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+      Using an SFTP client of your choice, upload the `hytalemodmanager.blueprint` file into your Pterodactyl directory (usually located at `/var/www/pterodactyl`).
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+      Now, Install the extension by running the following command:
+      
+```bash
+blueprint -install hytalemodmanager.blueprint
+```
+  </div>
+</Step>
+
+</Steps>
+
+## Configure CurseForge
+
+Hytale Mod Manager uses CurseForge API to provide access to a large library of Hytale mods. To obtain your key follow the steps below:
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+    Create a account at [CurseForge Console](https://console.curseforge.com)
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+    Generate an API key and paste it in the extension's settings.
+  </div>
+</Step>
+
+</Steps>
+
+## Configure Modtale
+
+Hytale Mod Manager uses Modtale API to provide access to a large library of Hytale mods. To obtain your key follow the steps below:
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+    Create a account at [Modtale Dashboard](https://modtale.net/dashboard/developer)
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+    Generate an API key and paste it in the extension's settings.
+  </div>
+</Step>
+
+</Steps>
+
+## Wings Modification
+
+Wings modification is **optional** and only required if you want to use the **Manage Mods** feature (view installed mods, update mods, and remove mods).
+
+These steps apply only to nodes running [Pterodactyl Wings](https://github.com/pterodactyl/wings) and must be completed on each node.
+If you are using [Calagopus Wings](https://github.com/calagopus/wings), you can skip this section entirely — everything will work without any additional modifications.
+
+Make sure you don't run the commands below inside your Pterodactyl directory (usually located at `/var/www/pterodactyl`)
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+
+### Install GoLang
+
+Pterodactyl Wings is written in Go, and Go is required in order to build a Wings binary. If you are using a Debian-based or Ubuntu-based distribution, install Go by running:
+
+```bash
+apt-get install -y golang
+```
+
+On other distributions, install Go using the distribution's package manager.
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Apply patch
+
+Start by cloning the Pterodactyl Wings repository:
+
+```bash
+git clone https://github.com/pterodactyl/wings.git pterodactyl-wings
+cd pterodactyl-wings
+```
+
+Next, using an SFTP client of your choice, upload the `WingsModification.patch` file into the cloned `pterodactyl-wings` directory.
+
+Once uploaded, apply the patch by running:
+
+```bash
+patch -Np1 -i WingsModification.patch
+```
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Build Wings Binary
+
+After the patch has been applied, build the Wings binary by running:
+
+```bash
+make build
+```
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Replace Wings Binary
+
+Once the build is complete, stop the currently running Wings service, replace the binary with the
+newly built one, and start Wings again:
+
+```bash
+systemctl stop wings
+cp "build/wings_linux_$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')" /usr/local/bin/wings
+systemctl start wings
+```
+
+  </div>
+</Step>
+
+</Steps>
+
+## Need help?
+
+If you have any questions or need assistance with the installation, feel free to contact us through:
+
+- Support Server: https://discord.gg/sQjuWcDxBY
+- Email: sarthak@stellarstudios.xyz

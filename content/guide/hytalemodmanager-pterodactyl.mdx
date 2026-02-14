@@ -1,0 +1,291 @@
+---
+title: Hytale Mod Manager for Pterodactyl
+author: Sarthak
+date: 2026-02-07
+cover: /hytalemodmanager/banner-pterodactyl.png
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+## Welcome
+
+Thank you for purchasing **Hytale Mods Manager for Pterodactyl**!
+If you encounter any issues or have questions, feel free to reach out on our **Support Server**.
+
+## Installation
+
+Using an SFTP client of your choice, upload all of the files from the `UploadFiles` directory into your Pterodactyl directory (usually located at `/var/www/pterodactyl`)
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+
+### Frontend Routes
+
+Open the file: `resources/scripts/routers/routes.ts`
+
+Find this code:
+
+```ts
+import ServerActivityLogContainer from '@/components/server/ServerActivityLogContainer';
+```
+
+Add this code below it:
+
+```ts
+import HytaleModManagerRoutes from '@/routers/extensions/hytalemodmanager';
+```
+
+Find this code:
+
+```ts
+{
+    path: '/files',
+    permission: 'file.*',
+    name: 'Files',
+    component: FileManagerContainer,
+},
+```
+
+Add this code below it:
+
+```ts
+...HytaleModManagerRoutes,
+```
+
+![Hytale Mod Manager Help-1](/hytalemodmanager/help-1.png)
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Admin Sidebar
+
+Open the file: `resources/views/layouts/admin.blade.php`
+
+Find this code:
+
+```html
+<li class="{{ ! starts_with(Route::currentRouteName(), 'admin.nests') ?: 'active' }}">
+    <a href="{{ route('admin.nests') }}">
+        <i class="fa fa-th-large"></i> <span>Nests</span>
+    </a>
+</li>
+```
+
+Add this code below it:
+
+```php
+@include('layouts.extensions.hytalemodmanager')
+```
+
+![Hytale Mod Manager Help-2](/hytalemodmanager/help-2.png)
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Client API Routes
+
+Open the file: `routes/api-client.php`
+
+Add this code at the end of the file:
+
+```php
+Route::prefix('/extensions/hytalemodmanager')->group(base_path('routes/hytalemodmanager/api-client.php'));
+```
+
+![Hytale Mod Manager Help-3](/hytalemodmanager/help-3.png)
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Admin Routes
+
+Open the file: `routes/admin.php`
+
+Add this code at the end of the file:
+
+```php
+include 'hytalemodmanager/admin.php';
+```
+
+![Hytale Mod Manager Help-4](/hytalemodmanager/help-4.png)
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Install Node.js
+
+If you're using Debian-based or Ubuntu-based distributions, run the following commands:
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+apt-get install -y nodejs
+corepack enable
+```
+
+On other distributions, install Node.js using the distribution's package manager.
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Build panel assets
+
+Now, it's time to clean caches, download Node dependencies, and build the panel assets:
+
+```bash
+php artisan optimize:clear
+yarn install
+NODE_OPTIONS=--openssl-legacy-provider yarn build:production
+```
+
+  </div>
+</Step>
+
+</Steps>
+
+## Configure CurseForge
+
+Hytale Mod Manager uses CurseForge API to provide access to a large library of Hytale mods. To obtain your key follow the steps below:
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+    Create a account at [CurseForge Console](https://console.curseforge.com)
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+    Generate an API key and paste it in the extension's settings.
+  </div>
+</Step>
+
+</Steps>
+
+## Configure Modtale
+
+Hytale Mod Manager uses Modtale API to provide access to a large library of Hytale mods. To obtain your key follow the steps below:
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+    Create a account at [Modtale Dashboard](https://modtale.net/dashboard/developer)
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+    Generate an API key and paste it in the extension's settings.
+  </div>
+</Step>
+
+</Steps>
+
+## Wings Modification
+
+Wings modification is **optional** and only required if you want to use the **Manage Mods** feature (view installed mods, update mods, and remove mods).
+
+These steps apply only to nodes running [Pterodactyl Wings](https://github.com/pterodactyl/wings) and must be completed on each node.
+If you are using [Calagopus Wings](https://github.com/calagopus/wings), you can skip this section entirely — everything will work without any additional modifications.
+
+Make sure you don't run the commands below inside your Pterodactyl directory (usually located at `/var/www/pterodactyl`)
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+
+### Install GoLang
+
+Pterodactyl Wings is written in Go, and Go is required in order to build a Wings binary. If you are using a Debian-based or Ubuntu-based distribution, install Go by running:
+
+```bash
+apt-get install -y golang
+```
+
+On other distributions, install Go using the distribution's package manager.
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Apply patch
+
+Start by cloning the Pterodactyl Wings repository:
+
+```bash
+git clone https://github.com/pterodactyl/wings.git pterodactyl-wings
+cd pterodactyl-wings
+```
+
+Next, using an SFTP client of your choice, upload the `WingsModification.patch` file into the cloned `pterodactyl-wings` directory.
+
+Once uploaded, apply the patch by running:
+
+```bash
+patch -Np1 -i WingsModification.patch
+```
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Build Wings Binary
+
+After the patch has been applied, build the Wings binary by running:
+
+```bash
+make build
+```
+
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+
+### Replace Wings Binary
+
+Once the build is complete, stop the currently running Wings service, replace the binary with the
+newly built one, and start Wings again:
+
+```bash
+systemctl stop wings
+cp "build/wings_linux_$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')" /usr/local/bin/wings
+systemctl start wings
+```
+
+  </div>
+</Step>
+
+</Steps>
+
+## Need help?
+
+If you have any questions or need assistance with the installation, feel free to contact us through:
+
+- Support Server: https://discord.gg/sQjuWcDxBY
+- Email: sarthak@stellarstudios.xyz
