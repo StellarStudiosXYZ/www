@@ -1,8 +1,8 @@
 ---
-title: Hytale Mod Manager for Blueprint
+title: MC Modpacks Manager for Blueprint
 author: Sarthak
-date: 2026-02-14
-cover: /hytalemodmanager/banner-blueprint.png
+date: 2026-03-14
+cover: /mcmodpacks/banner-blueprint.png
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
@@ -10,7 +10,7 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 
 ## Information
 
-Before installing Hytale Mod Manager, make sure that you have **Blueprint** installed. Blueprint allows extensions like Hytale Mod Manager to have great compatibility with other modifications made by themes & extensions. You can find more information, download links and documentation at **https://blueprint.zip**.
+Before installing MC Modpacks Manager, make sure that you have **Blueprint** installed. Blueprint allows extensions like MC Modpacks Manager to have great compatibility with other modifications made by themes & extensions. You can find more information, download links and documentation at **https://blueprint.zip**.
 
 ## Installation
 
@@ -18,25 +18,49 @@ Before installing Hytale Mod Manager, make sure that you have **Blueprint** inst
 
 <Step>
   <div className="space-y-6">
-      Using an SFTP client of your choice, upload the `hytalemodmanager.blueprint` file into your Pterodactyl directory (usually located at `/var/www/pterodactyl`).
+    Using an SFTP client of your choice, upload the `mcmodpacks.blueprint` file
+    into your Pterodactyl directory (usually located at `/var/www/pterodactyl`).
   </div>
 </Step>
 
 <Step>
   <div className="space-y-6">
-      Now, Install the extension by running the following command:
-      
-```bash
-blueprint -install hytalemodmanager.blueprint
-```
+    Now, Install the extension by running the following command: ```bash
+    blueprint -install mcmodpacks.blueprint ```
   </div>
 </Step>
 
 </Steps>
 
+## Upload Egg
+
+<Callout type="info">
+  This egg is automatically managed by the extension and you should not create
+  any servers with it. For creating servers you should use [Minecraft Java
+  Egg](https://github.com/mcjars/pterodactyl-yolks/blob/main/egg-java-minecraft-with-modpack-support.json)
+  by [MC Jars](https://mcjars.app).
+</Callout>
+
+<Steps>
+<Step>
+    <div className="space-y-6">
+        Go to Nests tab in Admin Settings and Click on **Import Egg** button.
+    </div>
+</Step>
+    ![MC Modpacks Upload Egg Help-1](/mcmodpacks/egg-instruction-1.png)
+<Step>
+  <div className="space-y-6">
+      Upload `egg-mc-modpacks-installer.json` and click on **Import** button.
+  </div>
+</Step>
+
+    ![MC Modpacks Upload Egg Help-2](/mcmodpacks/egg-instruction-2.png)
+
+</Steps>
+
 ## Configure CurseForge
 
-Hytale Mod Manager uses CurseForge API to provide access to a large library of Hytale mods. To obtain your key follow the steps below:
+MC Modpacks Manager uses CurseForge API to provide access to a large library of Minecraft modpackls. To obtain your key follow the steps below:
 
 <Steps>
 
@@ -54,33 +78,15 @@ Hytale Mod Manager uses CurseForge API to provide access to a large library of H
 
 </Steps>
 
-## Configure Modtale
-
-Hytale Mod Manager uses Modtale API to provide access to a large library of Hytale mods. To obtain your key follow the steps below:
-
-<Steps>
-
-<Step>
-  <div className="space-y-6">
-    Create a account at [Modtale Dashboard](https://modtale.net/dashboard/developer)
-  </div>
-</Step>
-
-<Step>
-  <div className="space-y-6">
-    Generate an API key and paste it in the extension's settings.
-  </div>
-</Step>
-
-</Steps>
-
 ## Wings Modification
 
 <Callout type="info">
-  If you have already completed this step for any of the following extensions — [MC Plugins Manager](/products/mcplugins-blueprint), [MC Mods Manager](/products/mcmods-blueprint), or [MC Modpacks Manager](/products/mcmodpacks-blueprint) — you do not need to do it again. They all use the same Wings modification.
+  If you have already completed this step for any of the following extensions —
+  [MC Plugins Manager](/products/mcplugins-blueprint), [MC Mods
+  Manager](/products/mcmods-blueprint), or [Hytale Mod
+  Manager](/products/hytalemodmanager-blueprint) — you do not need to do it
+  again. They all use the same Wings modification.
 </Callout>
-
-Wings modification is **optional** and only required if you want to use the **Manage Mods** feature (view installed mods, update mods, and remove mods).
 
 These steps apply only to nodes running [Pterodactyl Wings](https://github.com/pterodactyl/wings) and must be completed on each node.
 If you are using [Calagopus Wings](https://github.com/calagopus/wings), you can skip this section entirely — everything will work without any additional modifications.

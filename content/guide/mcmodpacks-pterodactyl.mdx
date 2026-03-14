@@ -1,8 +1,8 @@
 ---
-title: Hytale Mod Manager for Pterodactyl
+title: MC Modpacks Manager for Pterodactyl
 author: Sarthak
-date: 2026-02-14
-cover: /hytalemodmanager/banner-pterodactyl.png
+date: 2026-03-14
+cover: /mcmodpacks/banner-pterodactyl.png
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
@@ -10,7 +10,7 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 
 ## Welcome
 
-Thank you for purchasing **Hytale Mods Manager for Pterodactyl**!
+Thank you for purchasing **MC Modpacks Manager for Pterodactyl**!
 If you encounter any issues or have questions, feel free to reach out on our **Support Server**.
 
 ## Installation
@@ -35,7 +35,7 @@ import ServerActivityLogContainer from '@/components/server/ServerActivityLogCon
 Add this code below it:
 
 ```ts
-import HytaleModManagerRoutes from '@/routers/extensions/hytalemodmanager';
+import MCModpacksRoutes from '@/routers/extensions/mcmodpacks';
 ```
 
 Find this code:
@@ -52,10 +52,10 @@ Find this code:
 Add this code below it:
 
 ```ts
-...HytaleModManagerRoutes,
+...MCModpacksRoutes,
 ```
 
-![Hytale Mod Manager Help-1](/hytalemodmanager/help-1.png)
+![MC Modpacks Help-1](/mcmodpacks/help-1.png)
 
   </div>
 </Step>
@@ -80,10 +80,10 @@ Find this code:
 Add this code below it:
 
 ```php
-@include('layouts.extensions.hytalemodmanager')
+@include('layouts.extensions.mcmodpacks')
 ```
 
-![Hytale Mod Manager Help-2](/hytalemodmanager/help-2.png)
+![MC Modpacks Help-2](/mcmodpacks/help-2.png)
 
   </div>
 </Step>
@@ -98,10 +98,10 @@ Open the file: `routes/api-client.php`
 Add this code at the end of the file:
 
 ```php
-Route::prefix('/extensions/hytalemodmanager')->group(base_path('routes/hytalemodmanager/api-client.php'));
+Route::prefix('/extensions/mcmodpacks')->group(base_path('routes/mcmodpacks/api-client.php'));
 ```
 
-![Hytale Mod Manager Help-3](/hytalemodmanager/help-3.png)
+![MC Modpacks Help-3](/mcmodpacks/help-3.png)
 
   </div>
 </Step>
@@ -116,10 +116,10 @@ Open the file: `routes/admin.php`
 Add this code at the end of the file:
 
 ```php
-include 'hytalemodmanager/admin.php';
+include 'mcmodpacks/admin.php';
 ```
 
-![Hytale Mod Manager Help-4](/hytalemodmanager/help-4.png)
+![MC Modpacks Help-4](/mcmodpacks/help-4.png)
 
   </div>
 </Step>
@@ -160,9 +160,35 @@ NODE_OPTIONS=--openssl-legacy-provider yarn build:production
 
 </Steps>
 
+## Upload Egg
+
+<Callout type="info">
+  This egg is automatically managed by the extension and you should not create
+  any servers with it. For creating servers you should use [Minecraft Java
+  Egg](https://github.com/mcjars/pterodactyl-yolks/blob/main/egg-java-minecraft-with-modpack-support.json)
+  by [MC Jars](https://mcjars.app).
+</Callout>
+
+<Steps>
+<Step>
+    <div className="space-y-6">
+        Go to Nests tab in Admin Settings and Click on **Import Egg** button.
+    </div>
+</Step>
+    ![MC Modpacks Upload Egg Help-1](/mcmodpacks/egg-instruction-1.png)
+<Step>
+  <div className="space-y-6">
+      Upload `egg-mc-modpacks-installer.json` and click on **Import** button.
+  </div>
+</Step>
+
+    ![MC Modpacks Upload Egg Help-2](/mcmodpacks/egg-instruction-2.png)
+
+</Steps>
+
 ## Configure CurseForge
 
-Hytale Mod Manager uses CurseForge API to provide access to a large library of Hytale mods. To obtain your key follow the steps below:
+MC Modpacks Manager uses CurseForge API to provide access to a large library of Minecraft modpacks. To obtain your key follow the steps below:
 
 <Steps>
 
@@ -180,33 +206,11 @@ Hytale Mod Manager uses CurseForge API to provide access to a large library of H
 
 </Steps>
 
-## Configure Modtale
-
-Hytale Mod Manager uses Modtale API to provide access to a large library of Hytale mods. To obtain your key follow the steps below:
-
-<Steps>
-
-<Step>
-  <div className="space-y-6">
-    Create a account at [Modtale Dashboard](https://modtale.net/dashboard/developer)
-  </div>
-</Step>
-
-<Step>
-  <div className="space-y-6">
-    Generate an API key and paste it in the extension's settings.
-  </div>
-</Step>
-
-</Steps>
-
 ## Wings Modification
 
 <Callout type="info">
-  If you have already completed this step for any of the following extensions — [MC Plugins Manager](/products/mcplugins-pterodactyl), [MC Mods Manager](/products/mcmods-pterodactyl), or [MC Modpacks Manager](/products/mcmodpacks-pterodactyl) — you do not need to do it again. They all use the same Wings modification.
+  If you have already completed this step for any of the following extensions — [MC Plugins Manager](/products/mcplugins-pterodactyl), [MC Mods Manager](/products/mcmods-pterodactyl), or [Hytale Mod Manager](/products/hytalemodmanager-pterodactyl) — you do not need to do it again. They all use the same Wings modification.
 </Callout>
-
-Wings modification is **optional** and only required if you want to use the **Manage Mods** feature (view installed mods, update mods, and remove mods).
 
 These steps apply only to nodes running [Pterodactyl Wings](https://github.com/pterodactyl/wings) and must be completed on each node.
 If you are using [Calagopus Wings](https://github.com/calagopus/wings), you can skip this section entirely — everything will work without any additional modifications.
