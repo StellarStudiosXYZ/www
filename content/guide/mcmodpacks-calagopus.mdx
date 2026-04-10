@@ -1,0 +1,54 @@
+---
+title: MC Modpacks Manager for Calagopus
+author: Sarthak
+date: 2026-04-04
+cover: /calagopus/mcmodpacks/banner.png
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+## Welcome
+
+Thank you for purchasing MC Modpacks Manager for Calagopus! If you encounter any issues or have questions, feel free to reach out on our Support Server.
+
+## Information
+
+This process is meant to be done via either the `:heavy` docker image or a full development environment, nothing in between. If you are using the regular `:latest` or `:nightly` docker image, you will need to switch it over to `:heavy` (or `:nightly-heavy`) to be able to install extensions. [Click here to view the guide on how to change the Docker image variant](https://calagopus.com/docs/panel/installation/docker#change-the-docker-image-variant-optional).
+
+## Installation
+
+<Steps>
+<Step>
+    <div className="space-y-6">
+        Go to Extensions Page in Admin Settings and Click on **Install** button and upload the `xyz_stellarstudios_mcmodpacks.c7s.zip` file.
+    </div>
+</Step>
+<Step>
+  <div className="space-y-6">
+      Click on **Rebuild Extensions** button.
+  </div>
+  ![Extension Installation Help](/calagopus/extension-installation.png)
+</Step>
+
+</Steps>
+
+## Configure CurseForge
+
+MC Modpacks Manager uses CurseForge API to provide access to a large library of Minecraft modpacks. To obtain your key follow the steps below:
+
+<Steps>
+
+<Step>
+  <div className="space-y-6">
+    Create a account at [CurseForge Console](https://console.curseforge.com)
+  </div>
+</Step>
+
+<Step>
+  <div className="space-y-6">
+    Generate an API key and paste it in the extension's settings.
+  </div>
+</Step>
+
+</Steps>
